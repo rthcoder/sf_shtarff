@@ -11,40 +11,41 @@ enum Status {
   INACTIVE
 }
 
-enum FineFrom {
+enum PartnerType {
   ASBT
-  TELECOM_SOFT
+  TELECOMSOFT
 }
 
 model Fine {
-  id Int @id @default(autoincrement())
-  p_id String @map("pId")
-  p_sery_number String @map("pSeryNumber")
-  p_plate_number String @map("pPlateNumber")
-  p_place String @map("pPlace")
-  p_location String @map("pLocation")
-  p_mib String @map("pMIB")
-  p_video String @map("pVideo")
-  p_plate_number_image String @map("pPlateNumberImage")
-  p_plate_number_and_car String @map("pPlateNumberAndCar")
-  p_date String @map("pDate")
-  p_decree_date String @map("pDecreeDate")
-  p_violation Int @map("pViolation")
-  p_amount Int @map("pAmount")
-  p_payed_amount Int @map("pPayedAmount")
-  p_status Int @map("pStatus")
-  p_url Int @map("pUrl")
-  privil Int?
-  p_system_added_date String? @map("pSystemAddedDate")
-  p_invoice_number String? @map("pInvoiceNumber")
-  discount_start_date String? @map("discountStartDate")
-  doc_id_telecom_soft Int? @map("docId")
+  id                 Int     @id @default(autoincrement())
+  pId                String  @map("p_id")
+  pSeryNumber        String  @map("p_sery_number")
+  pPlateNumber       String  @map("p_plate_number")
+  pPlace             String  @map("p_place")
+  pLocation          String  @map("p_location")
+  pMIB               String  @map("p_mib")
+  pVideo             String  @map("p_video")
+  pPlateNumberImage  String  @map("p_plate_number_image")
+  pPlateNumberAndCar String  @map("p_plate_number_and_car")
+  pDate              String  @map("p_date")
+  pDecreeDate        String  @map("p_decree_date")
+  pViolation         Int     @map("p_violation")
+  pAmount            Int     @map("p_amount")
+  pPayedAmount       Int     @map("p_payed_amount")
+  pStatus            Int     @map("p_status")
+  pUrl               Int     @map("p_url")
+  privil             Int?
+  pSystemAddedDate   String? @map("p_system_added_date")
+  pInvoiceNumber     String? @map("p_invoice_number")
+  discountStartDate  String? @map("discount_start_date")
+  docId              Int?    @map("doc_id_telecom_soft")
 
-  p_from FineFrom @map("pFrom")
+  partnerType PartnerType @map("partner_type")
 
   request Json?
-  response Json?
 
-  created_at DateTime  @default(now()) @db.Timestamptz(5)
-  updated_at DateTime? @updatedAt @db.Timestamptz(5)
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(5)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(5)
+
+  @@map("fines") // Agar jadval nomi ham snake_case bo'lsa
 }
