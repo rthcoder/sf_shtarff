@@ -11,10 +11,40 @@ enum Status {
   INACTIVE
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  status    Status   @default(ACTIVE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+enum FineFrom {
+  ASBT
+  TELECOM_SOFT
+}
+
+model Fine {
+  id Int @id @default(autoincrement())
+  p_id String @map("pId")
+  p_sery_number String @map("pSeryNumber")
+  p_plate_number String @map("pPlateNumber")
+  p_place String @map("pPlace")
+  p_location String @map("pLocation")
+  p_mib String @map("pMIB")
+  p_video String @map("pVideo")
+  p_plate_number_image String @map("pPlateNumberImage")
+  p_plate_number_and_car String @map("pPlateNumberAndCar")
+  p_date String @map("pDate")
+  p_decree_date String @map("pDecreeDate")
+  p_violation Int @map("pViolation")
+  p_amount Int @map("pAmount")
+  p_payed_amount Int @map("pPayedAmount")
+  p_status Int @map("pStatus")
+  p_url Int @map("pUrl")
+  privil Int?
+  p_system_added_date String? @map("pSystemAddedDate")
+  p_invoice_number String? @map("pInvoiceNumber")
+  discount_start_date String? @map("discountStartDate")
+  doc_id_telecom_soft Int? @map("docId")
+
+  p_from FineFrom @map("pFrom")
+
+  request Json?
+  response Json?
+
+  created_at DateTime  @default(now()) @db.Timestamptz(5)
+  updated_at DateTime? @updatedAt @db.Timestamptz(5)
 }
