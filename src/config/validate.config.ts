@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { IsPort, IsString, IsNotEmpty, validateSync, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, validateSync } from 'class-validator';
 import 'dotenv/config';
 
 import { ConfigService } from '@nestjs/config';
@@ -10,6 +10,22 @@ class EnvironmentVariables {
   @IsNotEmpty()
   @IsString()
   APP_PORT: string;
+
+  @IsNotEmpty()
+  @IsString()
+  RABBITMQ_URL: string;
+
+  @IsNotEmpty()
+  @IsString()
+  RABBITMQ_LOGIN: string;
+
+  @IsNotEmpty()
+  @IsString()
+  RABBITMQ_PASSWORD: string;
+
+  @IsOptional()
+  @IsString()
+  RABBITMQ_QUEUE?: string;
 }
 
 export function validate(config: Record<string, unknown>) {

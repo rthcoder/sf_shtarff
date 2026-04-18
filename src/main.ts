@@ -1,4 +1,4 @@
-import { APP_PORT } from './config';
+import { APP_PORT, RABBITMQ_AMQP_URL } from './config';
 import { AppModule } from './app.module';
 import { ParseFiltersPipe } from '@pipes';
 import { NestFactory } from '@nestjs/core';
@@ -7,6 +7,7 @@ import { globalHeaderParametrs } from '@enums';
 import * as basicAuth from 'express-basic-auth';
 // import { LoggingInterceptor } from '@interceptors';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionFilter, HttpExceptionFilter } from '@exceptions';
 // import { MyLogger } from './logging/logger.service';
@@ -14,6 +15,19 @@ import { AllExceptionFilter, HttpExceptionFilter } from '@exceptions';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // app.useLogger(app.get(MyLogger));
+
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.RMQ,
+    options: {
+      urls: [RABBITMQ_AMQP_URL],
+      queue: 'fines_queue',
+      noAck: false,
+      prefetchCount: 10,
+      queueOptions: {
+        durable: true,
+      },
+    },
+  });
 
   app.enableCors({
     origin: '*',
@@ -67,6 +81,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
+  await app.startAllMicroservices();
   await app.listen(APP_PORT);
 }
 bootstrap();
