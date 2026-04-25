@@ -16,7 +16,43 @@ enum PartnerType {
   TELECOMSOFT
 }
 
+//  pId, pMIB, pVideo, pPlateNumberImage
+
 model Fine {
+  id                 Int     @id @default(autoincrement())
+  pId                String? @map("p_id")
+  pSeryNumber        String  @map("p_sery_number")
+  pPlateNumber       String  @map("p_plate_number")
+  pPlace             String  @map("p_place")
+  pLocation          String  @map("p_location")
+  pMIB               String? @map("p_mib")
+  pVideo             String? @map("p_video")
+  pPlateNumberImage  String? @map("p_plate_number_image")
+  pPlateNumberAndCar String  @map("p_plate_number_and_car")
+  pDate              String  @map("p_date")
+  pDecreeDate        String  @map("p_decree_date")
+  pViolation         Int     @map("p_violation")
+  pAmount            Int     @map("p_amount")
+  pPayedAmount       Int?    @map("p_payed_amount")
+  pStatus            Int?    @map("p_status")
+  pUrl               String? @map("p_url")
+  privil             Int?
+  pSystemAddedDate   String? @map("p_system_added_date")
+  pInvoiceNumber     String? @unique @map("p_invoice_number")
+  discountStartDate  String? @map("discount_start_date")
+  docId              Int?    @map("doc_id_telecom_soft")
+
+  partnerType PartnerType @map("partner_type")
+
+  request Json?
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(5)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(5)
+
+  @@map("fines")
+}
+
+model MissingVehicleFine {
   id                 Int     @id @default(autoincrement())
   pId                String  @map("p_id")
   pSeryNumber        String  @map("p_sery_number")
@@ -31,12 +67,12 @@ model Fine {
   pDecreeDate        String  @map("p_decree_date")
   pViolation         Int     @map("p_violation")
   pAmount            Int     @map("p_amount")
-  pPayedAmount       Int     @map("p_payed_amount")
-  pStatus            Int     @map("p_status")
-  pUrl               Int     @map("p_url")
+  pPayedAmount       Int?    @map("p_payed_amount")
+  pStatus            Int?    @map("p_status")
+  pUrl               String? @map("p_url")
   privil             Int?
   pSystemAddedDate   String? @map("p_system_added_date")
-  pInvoiceNumber     String? @map("p_invoice_number")
+  pInvoiceNumber     String? @unique @map("p_invoice_number")
   discountStartDate  String? @map("discount_start_date")
   docId              Int?    @map("doc_id_telecom_soft")
 
@@ -47,5 +83,5 @@ model Fine {
   createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(5)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.Timestamptz(5)
 
-  @@map("fines") // Agar jadval nomi ham snake_case bo'lsa
+  @@map("missing_vehicle_fine")
 }

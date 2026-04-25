@@ -1,6 +1,2 @@
-export interface IUser {
-  id: number;
-  email?: string;
-  iat?: number;
-  exp?: number;
-}
+export * from './fine.interface'
+export * from './rabbitmq-message.interface'

@@ -1,26 +1,31 @@
+import { PrismaService } from '@prisma';
 import { Injectable } from '@nestjs/common';
-import { CreateFineDto } from './dto/create-fine.dto';
-import { UpdateFineDto } from './dto/update-fine.dto';
+import { CheckFineIsExists, FineCreatedMessageDto } from '@interfaces'
 
 @Injectable()
 export class FinesService {
-  create(createFineDto: CreateFineDto) {
-    return 'This action adds a new fine';
+  constructor(private readonly prisma: PrismaService) { }
+
+  async checkFineIsExists(data: CheckFineIsExists) {
+    const finesExistsByInvoice = await this.prisma.fine.findFirst(
+      {
+        where: {
+          pPlateNumber: data.drb_number,
+          pInvoiceNumber: data.invoice_number
+        }
+      }
+    )
+
+    return {
+      exists: finesExistsByInvoice ? true : false
+    }
   }
 
-  findAll() {
-    return `This action returns all fines`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} fine`;
-  }
-
-  update(id: number, updateFineDto: UpdateFineDto) {
-    return `This action updates a #${id} fine`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} fine`;
-  }
+  // async createManyFines(data: FineCreatedMessageDto[]) {
+  //   await this.prisma.fine.createMany(
+  //     {
+  //       data: da
+  //     }
+  //   )
+  // }
 }

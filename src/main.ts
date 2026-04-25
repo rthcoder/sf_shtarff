@@ -20,9 +20,9 @@ async function bootstrap() {
     transport: Transport.RMQ,
     options: {
       urls: [RABBITMQ_AMQP_URL],
-      queue: 'fines_queue',
+      queue: 'worker_fines_queue',
       noAck: false,
-      prefetchCount: 10,
+      prefetchCount: 100,
       queueOptions: {
         durable: true,
       },
